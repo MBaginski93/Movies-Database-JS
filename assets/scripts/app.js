@@ -54,10 +54,10 @@ const clearUserInputs = () => {
 };
 
 const updateUI = () => {
-  if (moviesDatabase != []) {
-    welcomeCard.style.display = "none";
-  } else {
+  if (moviesDatabase.length === 0) {
     welcomeCard.style.display = "block";
+  } else {
+    welcomeCard.style.display = "none";
   }
 };
 
@@ -80,10 +80,14 @@ const renderNewMovieElement = (title, url, rating) => {
 
 const deleteMovie = (movieId) => {
   const negationBtn = deleteModal.querySelector(".btn--passive");
-  const confirmationBtn = deleteModal.querySelector(".btn--danger");
+  let confirmationBtn = deleteModal.querySelector(".btn--danger");
 
   deleteModal.classList.add("visible");
   toggleBackdrop();
+
+  confirmationBtn.replaceWith(confirmationBtn.cloneNode(true));
+  confirmationBtn = deleteModal.querySelector(".btn--danger");
+  negationBtn.removeEventListener("click", removeModalVisibility);
 
   confirmationBtn.addEventListener("click", confirmationHandler.bind(null, movieId));
   negationBtn.addEventListener("click", removeModalVisibility);
